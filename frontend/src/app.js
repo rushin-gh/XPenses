@@ -1,6 +1,16 @@
 import ReactDOM from "react-dom/client";
 
-const testElement = <div id="testElement">Test element</div>;
+import Header from "./Components/Header";
+import Body from "./Components/Body";
+
+const AppLayout = () => {
+  return (
+    <div id="appLayout">
+      <Header />
+      <Body />
+    </div>
+  );
+};
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(testElement);
+root.render(<AppLayout />);

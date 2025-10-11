@@ -1,0 +1,63 @@
+#appLayout > #header > #leftSide {
+  border: 1px solid black;
+}
+
+#appLayout > #header > #leftSide {
+  display: flex;
+
+  align-items: center;
+}
+
+#appLayout > #header > #leftSide > #appLogo {
+  margin-left: 10px;
+}
+
+#appLayout > #header > #leftSide > #appName {
+  margin-left: 20px;
+  font-size: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: "Poppins", sans-serif;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+  background-color: #b9b9c0;
+  color: white;
+}
+
+thead tr,
+tbody tr {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 15px;
+}
+
+thead td {
+  font-weight: 600;
+}
+
+tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+tbody td {
+  color: #374151;
+  font-size: 15px;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
