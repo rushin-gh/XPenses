@@ -20,7 +20,7 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 10px;
   font-family: "Poppins", sans-serif;
   background-color: #fff;
   border-radius: 10px;
@@ -60,4 +60,26 @@ tbody td {
 
 tbody tr:last-child {
   border-bottom: none;
+}
+
+#expenseInput {
+  padding-top: 10px;
+  font-size: 20px;
+}
+
+#expenseInput > #expenseTxt {
+  font-size: 20px;
+  width: 69%;
+}
+
+#expenseInput > #expenseAmt {
+  font-size: 20px;
+  width: 20%;
+  margin-left: 10px;
+}
+
+#expenseInput > button {
+  margin-left: 10px;
+  font-size: 20px;
+  width: 9%;
 }
