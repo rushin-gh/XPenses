@@ -1,10 +1,12 @@
 const express = require("express");
-const { MongoClient } = require("mongodb");
+const { MongoClient, Collection } = require("mongodb");
 const config = require("./Data/config");
 const getCollectionConnection = require("./Database/DbConnection");
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.listen(config.APP_PORT, () => {
   console.log("Server is UP...");
@@ -16,6 +18,26 @@ app.post("/expense", async (req, res) => {
     let conn = await getCollectionConnection("Expenses");
     const result = await conn.insertOne(req.body);
     res.status(201).send(result);
+  } catch (err) {
+    const errObj = {
+      name: err.name,
+      message: err.message,
+      code: err.code,
+      codeName: err.codeName,
+      stack: err.stack,
+      cause: err.cause,
+    };
+
+    res.status(500).send(errObj);
+  }
+});
+
+app.get("/expense", async (req, res) => {
+  try {
+    let conn = await getCollectionConnection("Expenses");
+    const documents = await conn.find({}).toArray();
+    console.log(documents);
+    res.status(200).send(documents);
   } catch (err) {
     const errObj = {
       name: err.name,
