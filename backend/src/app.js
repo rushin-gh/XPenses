@@ -15,9 +15,8 @@ app.listen(config.APP_PORT, () => {
 
 app.post("/expense", async (req, res) => {
   try {
-    let conn = await getCollectionConnection("Expenses");
-    const result = await conn.insertOne(req.body);
-    res.status(201).send(result);
+    await addExpense(req.body);
+    res.status(201).send(await getExpenses({}));
   } catch (err) {
     const errObj = {
       name: err.name,
@@ -32,12 +31,10 @@ app.post("/expense", async (req, res) => {
   }
 });
 
-app.get("/expense", async (req, res) => {
+app.get("/expenses", async (req, res) => {
   try {
-    let conn = await getCollectionConnection("Expenses");
-    const documents = await conn.find({}).toArray();
-    console.log(documents);
-    res.status(200).send(documents);
+    const expenses = await getExpenses({});
+    res.status(200).send(expenses);
   } catch (err) {
     const errObj = {
       name: err.name,
@@ -52,6 +49,17 @@ app.get("/expense", async (req, res) => {
   }
 });
 
-app.use((req, res) => {
+const getExpenses = async (search = {}) => {
+  let conn = await getCollectionConnection("Expenses");
+  const documents = await conn.find(search).toArray();
+  return documents;
+};
+
+const addExpense = async (expense) => {
+  let conn = await getCollectionConnection("Expenses");
+  const result = await conn.insertOne(expense);
+};
+
+app.use("/ping", (req, res) => {
   res.send("Server is running successfully...");
 });
