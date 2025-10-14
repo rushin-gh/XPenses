@@ -4,17 +4,43 @@ import ExpensesList from "../Data/ExpenseList.json";
 const Body = () => {
   const [expense, setExpense] = useState("");
   const [amount, setAmount] = useState("");
+  const [expenseList, setExpenseList] = useState([]);
 
   useEffect(() => {
-    Fun();
+    ExpenseAssignment();
   }, []);
 
-  async function Fun() {
-    const ex = await fetch("http://localhost:3000/expense", {
+  async function ExpenseAssignment() {
+    const response = await fetch("http://localhost:3000/expenses", {
       method: "GET",
     });
-    const exx = await ex.json();
-    console.log(exx);
+    const expList = await response.json();
+    setExpenseList(expList);
+  }
+
+  async function AddExpenseToDb() {
+    const objToPost = {
+      expense: expense,
+      amount: amount,
+    };
+
+    console.log(objToPost);
+
+    const response = await fetch("http://localhost:3000/expense", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(objToPost),
+    });
+
+    if (!response.ok) {
+      console.log("Error occured while adding expense to DB");
+    } else {
+      console.log("Expense added successfully");
+      const expList = await response.json();
+      setExpenseList(expList);
+    }
   }
 
   return (
@@ -35,7 +61,9 @@ const Body = () => {
           onChange={(event) => setAmount(event.target.value)}
         />
 
-        <button type="submit">Add</button>
+        <button type="submit" onClick={() => AddExpenseToDb()}>
+          Add
+        </button>
       </div>
       <table>
         <thead>
@@ -46,7 +74,7 @@ const Body = () => {
         </thead>
 
         <tbody>
-          {ExpensesList.map((item, index) => (
+          {expenseList.map((item, index) => (
             <tr key={index}>
               <td>{item.expense}</td>
               <td>{item.amount}</td>
