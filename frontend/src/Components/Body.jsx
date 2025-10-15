@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
-import ExpensesList from "../Data/ExpenseList.json";
 
 const Body = () => {
+  const deleteIcon = new URL(
+    "../assets/images/DeleteIcon.png",
+    import.meta.url
+  );
+  const updateIcon = new URL(
+    "../assets/images/UpdateIcon.png",
+    import.meta.url
+  );
+
   const [expense, setExpense] = useState("");
   const [amount, setAmount] = useState("");
   const [expenseList, setExpenseList] = useState([]);
@@ -15,13 +23,14 @@ const Body = () => {
       method: "GET",
     });
     const expList = await response.json();
+    console.log(expList);
     setExpenseList(expList);
   }
 
   async function AddExpenseToDb() {
     const objToPost = {
-      expense: expense,
-      amount: amount,
+      expense: expense.trim(),
+      amount: amount.trim(),
     };
 
     console.log(objToPost);
@@ -40,8 +49,16 @@ const Body = () => {
       console.log("Expense added successfully");
       const expList = await response.json();
       setExpenseList(expList);
+      setExpense("");
+      setAmount("");
     }
   }
+
+  // @TODO - Create backend api for expense updation
+  const UpdateExpense = (item_id) => {};
+
+  // @TODO - Create backend api for expense deletion
+  const DeleteExpense = (item_id) => {};
 
   return (
     <div id="body">
@@ -55,7 +72,8 @@ const Body = () => {
         />
         <input
           id="expenseAmt"
-          type="text"
+          type="number"
+          min={0}
           placeholder="Enter amount"
           value={amount}
           onChange={(event) => setAmount(event.target.value)}
@@ -70,6 +88,8 @@ const Body = () => {
           <tr>
             <td>Expense</td>
             <td>Amount</td>
+            <td width="5%">Update</td>
+            <td width="5%">Delete</td>
           </tr>
         </thead>
 
@@ -78,6 +98,26 @@ const Body = () => {
             <tr key={index}>
               <td>{item.expense}</td>
               <td>{item.amount}</td>
+              <td>
+                <img
+                  className="oprIcons"
+                  src={updateIcon}
+                  alt="Update Icon"
+                  // onClick={() => {
+                  //   UpdateExpense()
+                  // }}
+                />
+              </td>
+              <td>
+                <img
+                  className="oprIcons"
+                  src={deleteIcon}
+                  alt="Delete Icon"
+                  onClick={() => {
+                    DeleteExpense(item._id);
+                  }}
+                />
+              </td>
             </tr>
           ))}
         </tbody>
