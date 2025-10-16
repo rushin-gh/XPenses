@@ -58,7 +58,24 @@ const Body = () => {
   const UpdateExpense = (item_id) => {};
 
   // @TODO - Create backend api for expense deletion
-  const DeleteExpense = (item_id) => {};
+  const DeleteExpense = async (item_id) => {
+    console.log("Method hit");
+    const response = await fetch("http://localhost:3000/expense", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: item_id }),
+    });
+
+    if (response.ok) {
+      console.log("Expense deleted successfully!");
+      const expList = await response.json();
+      setExpenseList(expList);
+    } else {
+      console.log("Error while deleting expense");
+    }
+  };
 
   return (
     <div id="body">

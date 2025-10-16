@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient, Collection } = require("mongodb");
+const { MongoClient, Collection, ObjectId } = require("mongodb");
 const config = require("./Data/config");
 const getCollectionConnection = require("./Database/DbConnection");
 const cors = require("cors");
@@ -11,6 +11,25 @@ app.use(cors());
 app.listen(config.APP_PORT, () => {
   console.log("Server is UP...");
   console.log("Listening on ", config.APP_PORT);
+});
+
+app.delete("/expense", async (req, res) => {
+  try {
+    console.log(req.body?.id);
+    await deleteExpense(req.body?.id);
+    res.status(200).send(await getExpenses({}));
+  } catch (err) {
+    const errObj = {
+      name: err.name,
+      message: err.message,
+      code: err.code,
+      codeName: err.codeName,
+      stack: err.stack,
+      cause: err.cause,
+    };
+
+    res.status(500).send(errObj);
+  }
 });
 
 app.post("/expense", async (req, res) => {
@@ -58,6 +77,11 @@ const getExpenses = async (search = {}) => {
 const addExpense = async (expense) => {
   let conn = await getCollectionConnection("Expenses");
   const result = await conn.insertOne(expense);
+};
+
+const deleteExpense = async (eid) => {
+  let conn = await getCollectionConnection("Expenses");
+  const result = await conn.deleteOne({ _id: new ObjectId(eid) });
 };
 
 app.use("/ping", (req, res) => {
