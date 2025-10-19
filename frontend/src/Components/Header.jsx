@@ -1,10 +1,10 @@
-const Header = () => {
-  const logo = new URL("../assets/images/AppLogo.png", import.meta.url);
+const { AppLogo } = require('../assets/images/images');
 
+const Header = () => {
   return (
     <div id="header">
       <div id="leftSide">
-        <img id="appLogo" src={logo} alt="App Logo" />
+        <img id="appLogo" src={AppLogo} alt="App Logo" />
         <h2 id="appName">XPenses</h2>
       </div>
       <div id="headerRight"></div>
