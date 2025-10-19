@@ -55,7 +55,7 @@ const Body = () => {
   }
 
   // @TODO - Create backend api for expense updation
-  const UpdateExpense = (item_id) => {};
+  const UpdateExpense = (item_id) => { };
 
   // @TODO - Create backend api for expense deletion
   const DeleteExpense = async (item_id) => {
@@ -77,6 +77,7 @@ const Body = () => {
     }
   };
 
+  console.log(typeof expenseList);
   return (
     <div id="body">
       <div id="expenseInput">
@@ -111,32 +112,33 @@ const Body = () => {
         </thead>
 
         <tbody>
-          {expenseList.map((item, index) => (
-            <tr key={index}>
-              <td>{item.expense}</td>
-              <td>{item.amount}</td>
-              <td>
-                <img
-                  className="oprIcons"
-                  src={updateIcon}
-                  alt="Update Icon"
+          {
+            expenseList.map((item, index) => (
+              <tr key={index}>
+                <td>{item.expense}</td>
+                <td>{item.amount}</td>
+                <td>
+                  <img
+                    className="oprIcons"
+                    src={updateIcon}
+                    alt="Update Icon"
                   // onClick={() => {
                   //   UpdateExpense()
                   // }}
-                />
-              </td>
-              <td>
-                <img
-                  className="oprIcons"
-                  src={deleteIcon}
-                  alt="Delete Icon"
-                  onClick={() => {
-                    DeleteExpense(item._id);
-                  }}
-                />
-              </td>
-            </tr>
-          ))}
+                  />
+                </td>
+                <td>
+                  <img
+                    className="oprIcons"
+                    src={deleteIcon}
+                    alt="Delete Icon"
+                    onClick={() => {
+                      DeleteExpense(item._id);
+                    }}
+                  />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
